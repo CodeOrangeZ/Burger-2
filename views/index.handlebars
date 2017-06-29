@@ -1,0 +1,60 @@
+<div class="jumbotron">
+  <h1>McB's Burgers!</h1>
+</div>
+
+<div id="left">
+  <h2>Burgers that need grillin'</h2>
+  <ul>
+    {{#each burgers}}
+      {{#unless this.finished}}
+      
+        <h4>{{this.burger_name}}</h4>
+
+        <form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+          <input type="hidden" name="finished" value="true">
+          <button type="submit">Grill this burger!</button>
+        </form>
+
+      {{/unless}}
+    {{/each}}
+  </ul>
+</div>
+
+<div id="right">
+  <h2>Finished burgers</h2>
+
+  <ul>
+    {{#each burgers}}
+     {{#if this.finished}}
+      
+        <h4>{{this.burger_name}}</h4>
+
+        <form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+          <input type="hidden" name="finished" value="false">
+          <button type="submit">Un-grill it!</button>
+        </form>
+      
+      {{/if}}
+    {{/each}}
+  </ul>
+</div>
+
+<div id="bot">
+<h2>Add a Burger</h2>
+<form class="create-update-form" action="burgers/create" method="POST">
+
+  <div class="form-group">
+    <label for="burg">Burger type:</label>
+    <input type="text" id="burger" name="burger_name">
+  </div>
+
+  <div class="form-group">
+    <label for="finished">Is it finished?</label><br>
+    <input type="radio" name="finished" value="1"> Grilled!<br>
+    <input type="radio" name="finished" value="0" checked> Needs grillin'!
+  </div>
+
+
+  <button type="submit">Add Burger</button>
+</form>
+</div>
