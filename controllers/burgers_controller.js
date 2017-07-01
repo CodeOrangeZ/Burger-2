@@ -1,63 +1,50 @@
-var express = require('express');
+var express = require("express");
+
 var router = express.Router();
-var db = require('../models');
+var Burger = require("../models/burger");
 
+// get route -> index
 
-
-/*==================================EXPRESS ROUTES====================================*/
-router.get('/', function(req, res){
-	//retrieve all data from burgers and the temp from the temperature table
-	db.Burgers.findAll({
-		include: [db.Temperatures]
-		}).then(function(data){
-		var hbsObject = { burgers: data};
-		res.render('index', hbsObject);
-		}).catch(function(err){
-			console.log(err);
-		});
+router.get("/", function(req, res) {
+  res.redirect("burgers");
 });
 
-router.post('/index/create', function(req, res){
-	//create burger
-	db.Burgers.create({
-			burger_name: req.body.burger_name,
-		}).then(function(data){
-			console.log("added burger");
-			res.redirect('/');
-		}).catch(function(err){
-			console.log(err);
-		});
-});
+router.get("/burgers", function(req, res) {
 
-router.put('/index/update/:id', function(req, res){
-	//update Temperatures table and burgers table
-	db.Temperatures.create({
-		temp: req.body.temp,
-		burger_id: req.params.id
-	}, {
-		where: {id : req.params.id}
-	}).then(function(data){
-		console.log("temp updated: " + req.body.temp);
-	}).catch(function(err){
-		console.log(err);
-	});
-
-	db.Burgers.update({
-			devoured: 1,
-			burger_id: req.params.id
-		},
-		{
-			where: {id : req.params.id}
-		}).then(function(data){
-			res.redirect('/');
-		}).catch(function(err){
-			console.log(err);
-		});
+  Burger.findAll({}).then(function(data) {
+    // Wrapping the array of returned burgers in a object so it can be referenced inside our handlebars
+    var burgerList = { burgers: data };
+    res.render("index", burgerList);
+  });
 
 });
 
-/*==================================END EXPRESS ROUTES====================================*/
+// post route -> back to index
+router.post("/burgers/create", function(req, res) {
 
+    console.log("Burger Data:");
+    console.log(req.body);
 
-//export router to be required in server.js
+    Burger.create({
+      burger_name: req.body.burger_name
+    }).then(function(results) {
+      res.redirect("/");
+    });
+});
+
+// put route -> back to index
+router.put("/burgers/update", function(req, res) {
+
+    Burger.update({
+      devoured: true
+    },
+    {
+      where: {
+        id: req.body.burger_id
+      },
+    }).then(function(results) {
+      res.redirect("/");
+    });
+  });
+
 module.exports = router;

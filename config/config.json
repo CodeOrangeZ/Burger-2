@@ -9,15 +9,15 @@
   "test": {
     "username": "root",
     "password": "",
-    "database": "burgers_db",
+    "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "",
-    "database": "burgers_db",
-    "host": "127.0.0.1",
+    "username": "tp436e2rra87ztw7",
+    "password": "nsbc0npz0bm4by9m",
+    "database": "rf95gh25mh0zp0xq",
+    "host": "gzp0u91edhmxszwf.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   }
 }

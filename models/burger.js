@@ -1,18 +1,24 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
-    var burger = sequelize.define('burger', {
-        'burger_name': DataTypes.STRING,
-        finished: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
-        },
+// Sequelize class methods
+var Sequelize = require("sequelize");
 
-    }, {
-        classMethods: {
-            associate: function(models) {
-                // associations can be defined here
-            }
-        }
-    });
-    return burger;
-};
+// Sequelize instance methods
+var sequelize = require("../config/connection.js");
+
+var Burger = sequelize.define("burger", {
+  burger_name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  devoured: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  }
+}, {
+  timestamps: false
+});
+
+// Syncs with DB
+Burger.sync();
+
+module.exports = Burger;
